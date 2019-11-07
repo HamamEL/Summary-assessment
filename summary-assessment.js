@@ -59,10 +59,14 @@ function each(coll, f) {
   //wordLengths("hello its me") // [5,3,2]
   
   function wordLengths(str) {
-      // TODO: your code here 
+   var word = str.split(' ');
+      return map(word,function(element, i){
+        return element.length
+      })
   }
-  
-  //=============================================================================
+  // first we have tp split each word in the array then use the map function to ittrate over it after that the new string will return with the number of letters in that specific word
+
+//=============================================================================
   /*                                  Q2                                    */
   //=============================================================================
   //Write a function countOccurrences that accepts two parameters: a string, 
@@ -72,8 +76,13 @@ function each(coll, f) {
   // countOccurrences("hello, world!", "l"); // 3
   
   function countOccurrences(string, character) {
-      // your code is here
+   var arry = string.split(' ');
+      return filter(arry, function(element, i){
+           return element === character;
+      }).length
   }
+      
+//ittrating the array with filter function, after that filtering all the  element that are equal to character in the end the I used .length to get the specific array
   
   //=============================================================================
   /*                                  Q3                                    */
@@ -84,8 +93,13 @@ function each(coll, f) {
   // wordsLongerThanThree("Hello Mad World") //["Hello", "World"]
   
   function wordsLongerThanThree(str) {
-      // TODO: your code here 
+     var arr = str.split(" ")
+      return filter(arr ,function(element, i){
+        return element.length > 3;
+      })
   }
+  // as simple as it could be I used filter function to filter all the elements that are greater than number 3
+  
   
   //=============================================================================
   /*                                  Q4                                        */
@@ -98,12 +112,16 @@ function each(coll, f) {
   //repeatString('dog', 2); // => 'dog' + 'dog' => 'dogdog' 
   //repeatString('dog', 3); // => 'dog' + 'dog' + 'dog' => 'dogdogdog'
   
-  function repeatString(str, count) { 
-   // TODO: your code here 
-  } 
+ function repeatString(str, count) {
+    if (count === 0);
+    return ' '
+  return str + repeatString(str, count - 1 );
+} 
    
   
-  //=============================================================================
+  //first I will check if the count is 0 if it is the string will retuen as an empty string 
+  //other wise it return the string and the function will preform on that string and  the count will be decrease by 1 until it reaches 0;
+
   /*                                  Q5                                       */
   //=============================================================================
   /*
@@ -129,8 +147,35 @@ function each(coll, f) {
   // pizza.eatSlice();
   
   // Write your code here .....
+  function makePizza(crust, size , slices){
+    var pizza = {};
+    pizza.crust = crust;
+    pizza.size = size;
+    pizza.slices = slices;
+    pizza.ingredients = [];
+    return {
+      addIngredients : function(str){
+        pizza.ingredients.push(str)
+      },
+      displayIngredaints : function(){
+        return "the ingredients are : "+ pizza.ingredients.join(",")
+      },
+      bakePizza : function(){
+        setTimeout(function(){
+          console.log( "Your "+ pizza.crust +" " + pizza.size + " " + pizza.slices + " slice is finished")
+        },2000)
+      },
+      eatSlice : function(){
+        if(piz.slices > 0 ){
+          return piz.slices -= 1 ;
+        }
+        return "you have eated your pizza "
+      }
+    }
+  }
   
-  //=============================================================================
+  // first i decleread a varibale with all the properties and methods then the functions below will preform the operations addIngredinets will
+  //push the ingredients to the empty array 
   /*                                  Q6                                      */
   //=============================================================================
   /*
@@ -153,10 +198,39 @@ function each(coll, f) {
   */
   
   // Now, to make sure that you are actually reading, make a comment below this and type: Yes I am
+  // Yes I am.
   
-  // Write your code here .....
+   function ReadingList(){
+    book = {};
+    book.read = 0;
+    book.unRead = 0;
+    book.toRead = [];
+    book.currentRead = "";
+    book.readBooks = [];
+    book.addBook = addBook;
+    book.finishCurrentBook = finishCurrentBook ;
+    return book;
+  }
+  var addBook = function(bookName){
+    this.toRead.push(bookName);
+    this.unRead+=1
+  }
+  var finishCurrentBook = function(){
+    this.readBooks.push(this.currentRead);
+    this.read += 1;
+    this.currentRead = this.toRead[0];
+    if(this.unRead - 1 >= 0){
+    this.unRead -= 1; 
+    }
+  }
   
-  //=============================================================================
+  // first of all the class will take all the "reading feauters" that are mentioned in the question after that the function addBook will
+  //take the book name and push it to toRead in the same time it will add to unRead 
+  // first I used this to refer to the readbooks then push it to current reading 
+  // then it will increment read by 1.
+  // fourth line simply take current read value an put it toRead at zero index
+  // after that the unread will be decreased by 1.
+
   /*                                  Q7                                       */
   //=============================================================================
   //Using closures create makeSafe Function that accepts an initial integer value to specify the storage size limit
@@ -174,7 +248,33 @@ function each(coll, f) {
   //  safe('silver-bar','big') => "Can't fit"
   //  safe('money','small') => "watch gold-bar money"
   
-  // Write your code here .....
+  function makeSafe(init){
+    var balance = init;
+    var storage = [];
+     function addItem(item, size){
+      var pound = 0;
+      if(size === "big"){
+        pound = 3 ;
+      }
+      else if(size === "medium"){
+        pound = 2;
+      }
+      else if(size === "small"){
+        pound = 1;
+      }
+      if(balance - pound < 0){
+        return "Can't fit"
+      }
+      console.log(balance -= pound)
+      storage.push(item)
+      if(balance === 0){
+        return storage.join(" ")
+      }
+
+    }
+
+    return addItem
+  }
   
   //=============================================================================
   /*                                  Q8                                       */
@@ -216,10 +316,17 @@ function each(coll, f) {
   //================================================================================
   // Theoretical questions.
   // 1- In your own words,Why do we use Closures ?
-  
+  // we use closuer to access a global varibal in an outer function using a varibal in an inner function 
+  // closuers are used to keep the varibals in privacy 
   // 2- In OOP, what does "this" refer to ?
+  // this refer to an object for exact calling in afunction 
+
   
   // 3- What is jQuery?
+  // juery is  a libirary in javascript we use it for the sick of simplisity of our code and its main usage is to manipulating the Html page
+  //and method handling 
   
   // 4- what is the diffrence between Closure's methods and The OOP's methods?
+  // Closuer`s method is using thier local scope of varibals in the other hand oop methods are not counting on local varibals
+  //ps. i did not have time to do the html and css and jquery part.
   
